@@ -1,0 +1,20 @@
+@Composable
+fun CostPresets(
+    onCostPreset: (Double, Double) -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("Cost presets", style = MaterialTheme.typography.subtitle1)
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { onCostPreset(8.0, 15.0) }) {
+                Text("Budget: $8/g flower, $15/g extract")
+            }
+            Button(onClick = { onCostPreset(12.0, 20.0) }) {
+                Text("Mid: $12/g flower, $20/g extract")
+            }
+            Button(onClick = { onCostPreset(18.0, 30.0) }) {
+                Text("Top shelf: $18/g, $30/g")
+            }
+        }
+    }
+}
