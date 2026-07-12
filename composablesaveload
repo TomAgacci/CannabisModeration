@@ -1,3 +1,35 @@
+In App():
+
+var profiles by remember { mutableStateOf(listOf<Profile>()) }
+var currentProfileName by remember { mutableStateOf<String?>(null) }
+
+ProfilesPanel(
+    currentProfileName = currentProfileName,
+    onSaveProfile = { name ->
+        val stash = Stash(flowerGrams, extractGrams)
+        val pattern = UsePattern(flowerUsesPerDay, extractUsesPerDay)
+        val money = Money(moneySpent, costPerGramFlower, costPerGramExtract, budgetUntilPaycheck)
+        val profile = Profile(name, stash, pattern, daysUntilPaycheck, money)
+        profiles = profiles + profile
+        currentProfileName = name
+    },
+    profiles = profiles,
+    onLoadProfile = { p ->
+        flowerGrams = p.stash.flowerGrams
+        extractGrams = p.stash.extractGrams
+        flowerUsesPerDay = p.pattern.flowerUsesPerDay
+        extractUsesPerDay = p.pattern.extractUsesPerDay
+        daysUntilPaycheck = p.daysUntilPaycheck
+        moneySpent = p.money.moneySpent
+        costPerGramFlower = p.money.costPerGramFlower
+        costPerGramExtract = p.money.costPerGramExtract
+        budgetUntilPaycheck = p.money.budgetUntilPaycheck
+        currentProfileName = p.name
+    }
+)
+
+
+
 @Composable
 fun ProfilesPanel(
     currentProfileName: String?,
