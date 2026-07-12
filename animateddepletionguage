@@ -1,3 +1,8 @@
+Use inside LiveResultsPanel:
+
+DepletionGauge(result.totalDays, daysUntilPaycheck)
+
+
 @Composable
 fun DepletionGauge(
     totalDays: Double,
