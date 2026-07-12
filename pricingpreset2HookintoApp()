@@ -1,0 +1,4 @@
+CostPresets { flowerCost, extractCost ->
+    costPerGramFlower = flowerCost
+    costPerGramExtract = extractCost
+}
