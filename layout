@@ -1,0 +1,15 @@
+CannabisModeration/
+├─ settings.gradle.kts
+├─ build.gradle.kts          // root
+└─ app/
+   ├─ build.gradle.kts
+   └─ src/
+      ├─ commonMain/
+      │  └─ kotlin/
+      │     ├─ model.kt
+      │     ├─ engine.kt
+      │     └─ MainScreen.kt
+      ├─ androidMain/
+      │  └─ AndroidMainActivity.kt
+      └─ desktopMain/
+         └─ DesktopMain.kt
