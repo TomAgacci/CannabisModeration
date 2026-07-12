@@ -1,0 +1,47 @@
+@Composable
+fun PresetButtons(
+    onStashPreset: (Double, Double) -> Unit,
+    onPaycheckPreset: (Int) -> Unit,
+    onModerationPreset: (Double, Double) -> Unit
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+
+        Text("Presets", style = MaterialTheme.typography.h6)
+
+        // --- Stash Presets ---
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { onStashPreset(3.5, 1.0) }) {
+                Text("1 Eighth + 1g Extract")
+            }
+            Button(onClick = { onStashPreset(7.0, 1.0) }) {
+                Text("Quarter + 1g Extract")
+            }
+            Button(onClick = { onStashPreset(14.0, 2.0) }) {
+                Text("Half Ounce + 2g Extract")
+            }
+        }
+
+        // --- Paycheck Presets ---
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { onPaycheckPreset(14) }) {
+                Text("Paycheck in 2 Weeks")
+            }
+            Button(onClick = { onPaycheckPreset(30) }) {
+                Text("Monthly Cycle")
+            }
+        }
+
+        // --- Moderation Presets ---
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = { onModerationPreset(1.0, 1.0) }) {
+                Text("Light Use")
+            }
+            Button(onClick = { onModerationPreset(2.0, 1.0) }) {
+                Text("Moderate Use")
+            }
+            Button(onClick = { onModerationPreset(3.0, 2.0) }) {
+                Text("Heavy Use")
+            }
+        }
+    }
+}
