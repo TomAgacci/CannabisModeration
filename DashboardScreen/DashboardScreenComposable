@@ -1,0 +1,91 @@
+@Composable
+fun DashboardScreen(
+    flowerGrams: Double,
+    extractGrams: Double,
+    flowerUsesPerDay: Double,
+    extractUsesPerDay: Double,
+    daysUntilPaycheck: Int,
+    moneySpent: Double,
+    costPerGramFlower: Double,
+    costPerGramExtract: Double,
+    budgetUntilPaycheck: Double,
+    onUpdate: (
+        flowerGrams: Double,
+        extractGrams: Double,
+        flowerUses: Double,
+        extractUses: Double,
+        daysUntilPaycheck: Int,
+        moneySpent: Double,
+        costFlower: Double,
+        costExtract: Double,
+        budget: Double
+    ) -> Unit,
+    profiles: List<Profile>,
+    onSaveProfile: (String) -> Unit,
+    onLoadProfile: (Profile) -> Unit
+) {
+    val stash = Stash(flowerGrams, extractGrams)
+    val pattern = UsePattern(flowerUsesPerDay, extractUsesPerDay)
+    val money = Money(moneySpent, costPerGramFlower, costPerGramExtract, budgetUntilPaycheck)
+
+    val result = RationEngine.computePlan(stash, pattern, money, daysUntilPaycheck)
+
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        SummaryCard(result, daysUntilPaycheck)
+
+        DepletionGauge(result.totalDays, daysUntilPaycheck)
+
+        UsageChart(flowerUsesPerDay, extractUsesPerDay)
+
+        PresetButtons(
+            onStashPreset = { fg, eg ->
+                onUpdate(fg, eg, flowerUsesPerDay, extractUsesPerDay,
+                    daysUntilPaycheck, moneySpent, costPerGramFlower,
+                    costPerGramExtract, budgetUntilPaycheck)
+            },
+            onPaycheckPreset = { days ->
+                onUpdate(flowerGrams, extractGrams, flowerUsesPerDay,
+                    extractUsesPerDay, days, moneySpent,
+                    costPerGramFlower, costPerGramExtract, budgetUntilPaycheck)
+            },
+            onModerationPreset = { fUse, eUse ->
+                onUpdate(flowerGrams, extractGrams, fUse, eUse,
+                    daysUntilPaycheck, moneySpent, costPerGramFlower,
+                    costPerGramExtract, budgetUntilPaycheck)
+            }
+        )
+
+        CostPresets { flowerCost, extractCost ->
+            onUpdate(flowerGrams, extractGrams, flowerUsesPerDay,
+                extractUsesPerDay, daysUntilPaycheck, moneySpent,
+                flowerCost, extractCost, budgetUntilPaycheck)
+        }
+
+        ModerationSliders(
+            flowerUses = flowerUsesPerDay,
+            extractUses = extractUsesPerDay,
+            onFlowerChange = { f ->
+                onUpdate(flowerGrams, extractGrams, f, extractUsesPerDay,
+                    daysUntilPaycheck, moneySpent, costPerGramFlower,
+                    costPerGramExtract, budgetUntilPaycheck)
+            },
+            onExtractChange = { e ->
+                onUpdate(flowerGrams, extractGrams, flowerUsesPerDay, e,
+                    daysUntilPaycheck, moneySpent, costPerGramFlower,
+                    costPerGramExtract, budgetUntilPaycheck)
+            }
+        )
+
+        ProfilesPanel(
+            currentProfileName = null,
+            onSaveProfile = onSaveProfile,
+            profiles = profiles,
+            onLoadProfile = onLoadProfile
+        )
+
+        AutoModerationSuggestion(stash, pattern, daysUntilPaycheck)
+    }
+}
