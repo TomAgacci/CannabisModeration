@@ -1,0 +1,30 @@
+@Composable
+fun DepletionGauge(
+    totalDays: Double,
+    daysUntilPaycheck: Int
+) {
+    val ratio = (totalDays / daysUntilPaycheck).coerceIn(0.0, 1.5)
+    val animatedRatio by animateFloatAsState(targetValue = ratio.toFloat())
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text("Stash vs payday")
+
+        Canvas(modifier = Modifier.size(120.dp)) {
+            val sweep = animatedRatio * 360f
+            drawArc(
+                color = if (animatedRatio >= 1f) Color(0xFF4CAF50) else Color(0xFFF44336),
+                startAngle = -90f,
+                sweepAngle = sweep,
+                useCenter = false,
+                style = Stroke(width = 16f)
+            )
+        }
+
+        Text(
+            if (totalDays >= daysUntilPaycheck)
+                "Safe: lasts ~${"%.1f".format(totalDays)} days"
+            else
+                "Short: lasts ~${"%.1f".format(totalDays)} days"
+        )
+    }
+}
