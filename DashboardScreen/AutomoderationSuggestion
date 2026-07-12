@@ -1,0 +1,14 @@
+@Composable
+fun AutoModerationSuggestion(stash: Stash, pattern: UsePattern, daysUntilPaycheck: Int) {
+    val suggestion = suggestModeration(stash, pattern, daysUntilPaycheck)
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = 6.dp
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text("Auto‑moderation", style = MaterialTheme.typography.subtitle1)
+            Text(suggestion)
+        }
+    }
+}
