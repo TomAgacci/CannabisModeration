@@ -1,0 +1,7 @@
+data class Profile(
+    val name: String,
+    val stash: Stash,
+    val pattern: UsePattern,
+    val daysUntilPaycheck: Int,
+    val money: Money
+)
