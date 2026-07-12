@@ -1,0 +1,13 @@
+PresetButtons(
+    onStashPreset = { flower, extract ->
+        flowerGrams = flower
+        extractGrams = extract
+    },
+    onPaycheckPreset = { days ->
+        daysUntilPaycheck = days
+    },
+    onModerationPreset = { flowerUse, extractUse ->
+        flowerUsesPerDay = flowerUse
+        extractUsesPerDay = extractUse
+    }
+)
