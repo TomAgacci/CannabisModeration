@@ -1,0 +1,28 @@
+@Composable
+fun SummaryCard(result: PlanResult, daysUntilPaycheck: Int) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = 8.dp
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+
+            Text(
+                "Summary",
+                style = MaterialTheme.typography.h6
+            )
+
+            Text("Stash lasts ${"%.1f".format(result.totalDays)} days")
+            Text("Paycheck in $daysUntilPaycheck days")
+
+            if (result.totalDays >= daysUntilPaycheck) {
+                Text("✔ Safe until payday")
+            } else {
+                val shortfall = daysUntilPaycheck - result.totalDays
+                Text("⚠ Short by ${"%.1f".format(shortfall)} days")
+            }
+
+            Text("Daily cost: $${"%.2f".format(result.dailyCost)}")
+            Text("Budget fit: ${if (result.staysWithinBudget) "✔ OK" else "⚠ Over"}")
+        }
+    }
+}
