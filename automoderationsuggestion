@@ -1,0 +1,33 @@
+Show in UI:
+
+val suggestion = remember(stash, pattern, daysUntilPaycheck) {
+    suggestModeration(stash, pattern, daysUntilPaycheck)
+}
+
+Text("Suggestion: $suggestion")
+
+
+fun suggestModeration(
+    stash: Stash,
+    pattern: UsePattern,
+    daysUntilPaycheck: Int
+): String {
+    val result = RationEngine.computePlan(
+        stash,
+        pattern,
+        Money(0.0, 0.0, 0.0, Double.MAX_VALUE),
+        daysUntilPaycheck
+    )
+
+    if (result.totalDays >= daysUntilPaycheck) {
+        return "Current pattern already reaches payday."
+    }
+
+    // Simple heuristic: scale down both uses proportionally
+    val scale = result.totalDays / daysUntilPaycheck
+    val newFlowerUses = pattern.flowerUsesPerDay * scale
+    val newExtractUses = pattern.extractUsesPerDay * scale
+
+    return "Reduce to ~${"%.2f".format(newFlowerUses)} flower uses/day " +
+           "and ~${"%.2f".format(newExtractUses)} extract uses/day to reach payday."
+}
