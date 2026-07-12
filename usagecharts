@@ -1,0 +1,30 @@
+@Composable
+fun UsageChart(
+    flowerUsesPerDay: Double,
+    extractUsesPerDay: Double
+) {
+    val maxUses = max(flowerUsesPerDay, extractUsesPerDay).coerceAtLeast(1.0)
+
+    Column {
+        Text("Daily usage", style = MaterialTheme.typography.subtitle1)
+        Canvas(modifier = Modifier.fillMaxWidth().height(120.dp)) {
+            val barWidth = size.width / 4f
+            val scale = size.height / maxUses.toFloat()
+
+            // Flower bar
+            drawRect(
+                color = Color(0xFF8BC34A),
+                topLeft = Offset(barWidth, size.height - (flowerUsesPerDay.toFloat() * scale)),
+                size = Size(barWidth, flowerUsesPerDay.toFloat() * scale)
+            )
+
+            // Extract bar
+            drawRect(
+                color = Color(0xFF03A9F4),
+                topLeft = Offset(barWidth * 2f, size.height - (extractUsesPerDay.toFloat() * scale)),
+                size = Size(barWidth, extractUsesPerDay.toFloat() * scale)
+            )
+        }
+        Text("Green: flower, Blue: extract")
+    }
+}
